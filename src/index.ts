@@ -8,23 +8,42 @@ const reporter: TextlintRuleReporter = (context) => {
     async [Syntax.Str](node) {
       const text = getSource(node);
 
-      typoDictionary.forEach((typoData) => {
+      const ruleErrors = typoDictionary.flatMap((typoData) => {
         const index = text.indexOf(typoData.word);
 
         if (index === -1) {
-          return;
+          return [];
         }
 
-        const ruleError = new RuleError(
-          `日本語モードのまま入力された英単語: ${typoData.word} → ${typoData.correct}`,
-          {
-            index,
-            fix: fixer.replaceTextRange(
-              [index, index + typoData.word.length],
-              typoData.correct
-            ),
-          }
-        );
+        return [
+          new RuleError(
+            `日本語モードのまま入力された英単語: ${typoData.word} → ${typoData.correct}`,
+            {
+              index,
+              fix: fixer.replaceTextRange(
+                [index, index + typoData.word.length],
+                typoData.correct
+              ),
+            }
+          ),
+        ];
+      });
+
+      ruleErrors.forEach((ruleError) => {
+        if (
+          ruleErrors.some((otherRuleError) => {
+            if (!ruleError.fix || !otherRuleError.fix) {
+              throw new Error();
+            }
+
+            return (
+              ruleError.index === otherRuleError.index &&
+              ruleError.fix.range[1] < otherRuleError.fix.range[1]
+            );
+          })
+        ) {
+          return;
+        }
 
         report(node, ruleError);
       });

@@ -6,7 +6,7 @@ const tester = new TextLintTester();
 tester.run("ja-input-mode-en", rule, {
   invalid: [
     {
-      text: "あっｐぇ、ｓまｒｔｐほね、れこｒでｒ",
+      text: "あっｐぇ、ｓまｒｔｐほね、れこｒでｒ、ゔぃｃとｒｙ",
       errors: [
         {
           message: "日本語モードのまま入力された英単語: あっｐぇ → Apple",
@@ -43,6 +43,15 @@ tester.run("ja-input-mode-en", rule, {
           fix: {
             range: [13, 18],
             text: "recorder",
+          },
+        },
+        {
+          message: "日本語モードのまま入力された英単語: ゔぃｃとｒｙ → victory",
+          line: 1,
+          column: 20,
+          fix: {
+            range: [19, 25],
+            text: "victory",
           },
         },
       ],
