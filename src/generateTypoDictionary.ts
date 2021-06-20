@@ -16,7 +16,7 @@ const typoDictionary = readFileSync(enDictionaryPath, "utf-8")
     const word = moji(toHiragana(correct)).convert("HE", "ZE").toString();
 
     // 不自然なアルファベットが含まれているかチェックする。
-    return /[^ａ-ｚＡ-Ｚ][ａ-ｚＡ-Ｚ]+[^ａ-ｚＡ-Ｚ]/.test(word)
+    return /[ぁ-んー][ａ-ｚＡ-Ｚ]+[ぁ-んー]/.test(word)
       ? [
           {
             correct,
