@@ -1,6 +1,6 @@
 {
   "name": "textlint-rule-ja-input-mode-en",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "日本語モードのまま入力された英単語を検出する textlint ルール。",
   "keywords": [
     "textlintrule"
