@@ -26,4 +26,7 @@ const typoDictionary = readFileSync(enDictionaryPath, "utf-8")
       : [];
   });
 
-writeFileSync("src/typoDictionary.json", JSON.stringify(typoDictionary));
+writeFileSync(
+  "src/typoDictionary.json",
+  JSON.stringify(typoDictionary, null, 2)
+);
